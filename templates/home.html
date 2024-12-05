@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediksi Kecepatan Angin</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row" style="text-align: center;">
+            <h2 style="text-align: center;">Prediksi Kecepatan Angin</h2>
+        </div>
+        <form action="/" method="post">
+            <div class="row">
+                <div class="col">
+                    <label for="T">Suhu Udara (T)</label>
+                    <input type="number" step="0.01" class="form-control" id="T" name="T" required>
+                </div>
+                <div class="col">
+                    <label for="P">Tekanan Atmosfer (P)</label>
+                    <input type="number" step="0.01" class="form-control" id="P" name="P" required>
+                </div>
+                <div class="col">
+                    <label for="DD">Arah Angin (DD)</label>
+                    <select class="form-control" id="DD" name="DD" required>
+                        <option value=-1>None</option>
+                        <option value=0>Calm, no wind</option>
+                        <option value=1>Wind blowing from the east</option>
+                        <option value=2>Wind blowing from the east-northeast</option>
+                        <option value=3>Wind blowing from the east-southeast</option>
+                        <option value=4>Wind blowing from the north</option>
+                        <option value=5>Wind blowing from the north-east</option>
+                        <option value=6>Wind blowing from the north-northeast</option>
+                        <option value=7>Wind blowing from the north-northwest</option>
+                        <option value=8>Wind blowing from the north-west</option>
+                        <option value=9>Wind blowing from the south</option>
+                        <option value=10>Wind blowing from the south-east</option>
+                        <option value=11>Wind blowing from the south-southeast</option>
+                        <option value=12>Wind blowing from the south-southwest</option>
+                        <option value=13>Wind blowing from the south-west</option>
+                        <option value=14>Wind blowing from the west</option>
+                        <option value=15>Wind blowing from the west-northwest</option>
+                        <option value=16>Wind blowing from the west-southwest</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="Td">Suhu Titik Embun (Td)</label>
+                    <input type="number" step="0.01" class="form-control" id="Td" name="Td" required>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <button type="submit" class="btn btn-primary">Prediksi</button>
+            </div>
+        </form>
+        <hr>
+        <div class="row text-center">
+            <h2>Upload CSV File</h2>
+        </div>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <!-- <input type="number" step="0.01" class="form-control" id="tes" name="tes"> -->
+            <input type="file" name="file">
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+        <hr>
+        <!-- {% if table %}
+            <h2>Hasil Prediksi</h2>
+            {{ table | safe }}
+        {% endif %} -->
+        {% if table %}
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row text-center">
+                        <h2>Hasil Prediksi</h2>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-primary table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Suhu Udara (T)</th>
+                                    <th>Tekanan Atmosfer (P)</th>
+                                    <th>Arah Angin (DD)</th>
+                                    <th>Suhu Titik Embun (Td)</th>
+                                    <th class="table-active">Kecepatan Angin</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in table %}
+                                    <tr>
+                                        <td>{{ row[0] }}</td>
+                                        <td>{{ row[1] }}</td>
+                                        <td>{{ row[2] }}</td>
+                                        <td>{{ row[3] }}</td>
+                                        <td class="table-active">{{ row[4] }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col">
+                            <form action="/downloadcsv" method="post">
+                                <input type="hidden" name="table_data_csv" value="">
+                                <button type="submit" class="btn btn-success">Unduh CSV</button>
+                            </form>
+                        </div>
+                        <div class="col">
+                            <form action="/downloadxlsx" method="post">
+                                <input type="hidden" name="table_data" value="">
+                                <button type="submit" class="btn btn-success">Unduh XLSX</button>
+                            </form>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    
+    </div>
+</body>
+</html>
